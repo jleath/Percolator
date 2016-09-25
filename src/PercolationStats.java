@@ -13,10 +13,6 @@ public class PercolationStats {
     private int[] thresholds;
     private int T;
     private int N;
-    private double mean;
-    private double stddev;
-    private double confidenceLow;
-    private double confidenceHigh;
     private boolean display;
     private int failures;
 
@@ -44,10 +40,6 @@ public class PercolationStats {
         failures = 0;
         inputs = new HashMap<>();
         runTests();
-        mean = mean();
-        stddev = stddev();
-        confidenceHigh = confidenceHigh();
-        confidenceLow = confidenceLow();
     }
 
     private void runTests() {
@@ -108,12 +100,12 @@ public class PercolationStats {
 
     /** Low endpoint of 95% confidence interval. */
     public double confidenceLow() {
-        return mean - ((1.96 * stddev) / Math.sqrt(T));
+        return mean() - ((1.96 * stddev()) / Math.sqrt(T));
     }
 
     /** High endpoint of 95% confidence interval. */
     public double confidenceHigh() {
-        return mean + ((1.96 * stddev) / Math.sqrt(T));
+        return mean() + ((1.96 * stddev()) / Math.sqrt(T));
     }
 
     public int failures() {
