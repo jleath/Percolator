@@ -4,12 +4,22 @@ import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
-import java.util.HashMap;
-
 /**
- * Created by jaleath on 9/25/16.
+ * A class for analyzing the probability of percolation in a system. It's constructor takes in a grid size,
+ * a number of tests to run, and whether or not to display a visual representation of the system being tested.
+ * Tracks input sequences to be used for debugging if necessary. Uses the PercolationVisualizer class to display
+ * a nice representation of the system if desired.
  */
 public class PercolationStats {
+    /** The maximum number of operations that a test can fail before it will give up and restart. */
+    private static final int MAX_FAILED_OPERATIONS = 50;
+    /** The amount of time in milliseconds to pause the display upon percolation. */
+    private static final int DISPLAY_PAUSE_ON_SUCCESS = 2000;
+    /** The default amount of time to delay the display between each operation. */
+    private static final int DEFAULT_DELAY_PAUSE = 0;
+    /** The scaling factor for calculating the confidence interval. */
+    private static final double CONFIDENCE_SCALING_FACTOR = 1.96;
+
     /** An array to store the percolation threshold of each test. */
     private int[] thresholds;
     /** The number of tests to run. */
@@ -18,78 +28,55 @@ public class PercolationStats {
     private int N;
     /** True if the user used the -show flag upon execution. */
     private boolean display;
-    /** The number of repeated failures to open a site due to the site already being opened. */
+    /** An object to track the inputs that led to a test failure. */
+    private FailureSequence failureTracker;
+    /** A count of the number of failed tests. */
     private int failures;
-
-    private HashMap<Integer, Pair> inputs;
-
-    private class Pair {
-        int x;
-        int y;
-
-        Pair(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public String toString() {
-            return x + " " + y;
-        }
-    }
 
     public PercolationStats(int N, int T, boolean display) {
         thresholds = new int[T];
         this.T = T;
         this.N = N;
         this.display = display;
+        failureTracker = new FailureSequence(N);
         failures = 0;
-        inputs = new HashMap<>();
         runTests();
     }
 
     private void runTests() {
-        if (display) {
-            StdDraw.show(0);
-        }
-        for (int i = 0; i < T; ++i) {
-            int failedOps = 0;
-            System.out.println("Running test " + i);
+        // run T tests
+        for (int currentTestNumber = 0; currentTestNumber < T; ++currentTestNumber) {
+            System.out.println("Running test " + currentTestNumber);
+            // initialize required components for test
             Percolation test = new Percolation(N);
+            failureTracker.resetInput();
             System.out.println("Test constructed");
-            int j = 0;
+            // open random sites until the system percolates
             while (!test.percolates()) {
-                if (display) {
-                    PercolationVisualizer.draw(test, N);
-                    StdDraw.show(0);
-                }
+                draw(test, DEFAULT_DELAY_PAUSE);
                 int randomRow = StdRandom.uniform(N);
                 int randomCol = StdRandom.uniform(N);
-                inputs.put(j, new Pair(randomRow, randomCol));
-                //System.out.println("Opening: " + randomRow + ", " + randomCol);
+                // record the position of the site opened to facilitate
+                // reproduction of test failure
+                failureTracker.recordInput(randomRow, randomCol);
                 if (test.isOpen(randomRow, randomCol)) {
-                    failedOps += 1;
-                    if (failedOps > 50) {
+                    // handle a failed open operation
+                    if (failureTracker.recordFailedOp() > MAX_FAILED_OPERATIONS) {
+                        failureTracker.recordFailedTest();
                         failures += 1;
-                        dumpInputs();
-                        System.exit(0);
                         break;
                     }
                 } else {
-                    failedOps = 0;
+                    // handle a successful open operation
+                    failureTracker.resetFailedOps();
                 }
                 test.open(randomRow, randomCol);
-                if (display) {
-                    PercolationVisualizer.draw(test, N);
-                    StdDraw.show(0);
-                }
-                j += 1;
+                draw(test, DEFAULT_DELAY_PAUSE);
             }
-            if (display) {
-                PercolationVisualizer.draw(test, N);
-                StdDraw.show(2000);
-            }
-            thresholds[i] = test.numberOfOpenSites();
-            System.out.println("Test " + i + ": " + test.numberOfOpenSites() + " opened sites");
+            // system has percolated, update thresholds tracker
+            draw(test, DISPLAY_PAUSE_ON_SUCCESS);
+            thresholds[currentTestNumber] = test.numberOfOpenSites();
+            System.out.println("Test " + currentTestNumber + ": " + test.numberOfOpenSites() + " opened sites");
         }
     }
 
@@ -105,29 +92,26 @@ public class PercolationStats {
 
     /** Low endpoint of 95% confidence interval. */
     public double confidenceLow() {
-        return mean() - ((1.96 * stddev()) / Math.sqrt(T));
+        return mean() - ((CONFIDENCE_SCALING_FACTOR * stddev()) / Math.sqrt(T));
     }
 
     /** High endpoint of 95% confidence interval. */
     public double confidenceHigh() {
-        return mean() + ((1.96 * stddev()) / Math.sqrt(T));
+        return mean() + ((CONFIDENCE_SCALING_FACTOR * stddev()) / Math.sqrt(T));
     }
 
-    /** Return the number of times a test failed to complete. */
+    /** Return the number of failed tests during this run. */
     public int failures() {
         return failures;
     }
 
-    /** This method returns the inputs that were used in simulating percolation. Primarily used
-     *  to test that the percolates() method is working correctly. I noticed that the percolates method
-     *  was sometimes returning false even if all sites are open. I fixed the issue (the method that determines whether
-     *  sites are full was not always being called at the correct time), but I am leaving this here because it was useful
-     *  to be able to dump what has been attempted, copy it into a text file and then running it through the visualizer to
-     *  analyze what is going on.
+    /**
+     * A method to handle interaction with the PercolationVisualizer class to clean up the code a bit.
      */
-    private void dumpInputs() {
-        for (int i = 0; i < inputs.size(); i++) {
-            System.out.println(inputs.get(i));
+    private void draw(Percolation p, int delay) {
+        if (display) {
+            PercolationVisualizer.draw(p, N);
+            StdDraw.show(delay);
         }
     }
 }
