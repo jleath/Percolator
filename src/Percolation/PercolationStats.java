@@ -1,19 +1,24 @@
+package Percolation;
 
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
-import java.awt.*;
 import java.util.HashMap;
 
 /**
  * Created by jaleath on 9/25/16.
  */
 public class PercolationStats {
+    /** An array to store the percolation threshold of each test. */
     private int[] thresholds;
+    /** The number of tests to run. */
     private int T;
+    /** The size of the grid to be used for tests. */
     private int N;
+    /** True if the user used the -show flag upon execution. */
     private boolean display;
+    /** The number of repeated failures to open a site due to the site already being opened. */
     private int failures;
 
     private HashMap<Integer, Pair> inputs;
@@ -108,6 +113,7 @@ public class PercolationStats {
         return mean() + ((1.96 * stddev()) / Math.sqrt(T));
     }
 
+    /** Return the number of times a test failed to complete. */
     public int failures() {
         return failures;
     }

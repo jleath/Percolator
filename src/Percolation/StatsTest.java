@@ -1,9 +1,18 @@
+package Percolation;
 
 /**
- * Created by jaleath on 9/25/16.
+ * A client for the PercolationStats class. This program takes the width of a grid to test,
+ * the number of tests to run and a flag to dictate whether a visual representation of the model
+ * is shown. This flag should be "-show", any other flag or the absence of one will result in no
+ * visual display.
+ *
+ * Uses the PercolationStats class to print relevant information regarding the probability of percolation.
  */
 public class StatsTest {
     public static void main(String[] args) {
+        if (args.length < 2) {
+            System.out.printf("Invalid arguments:\nUsage:\n\tjava StatsTest [grid size] [number of tests] (-show)\n");
+        }
         boolean display = false;
         int N = Integer.parseInt(args[0]);
         int T = Integer.parseInt(args[1]);

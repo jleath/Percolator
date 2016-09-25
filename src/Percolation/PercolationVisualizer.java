@@ -1,8 +1,14 @@
+package Percolation;
+
+import java.awt.Font;
+
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdDraw;
 
 /******************************************************************************
- *  Compilation:  javac PercolationVisualizer.java
- *  Execution:    java PercolationVisualizer input.txt
- *  Dependencies: Percolation.java
+ *  Compilation:  javac Percolation.PercolationVisualizer.java
+ *  Execution:    java Percolation.PercolationVisualizer input.txt
+ *  Dependencies: Percolation.Percolation.java
  *
  *  This program takes the name of a file as a command-line argument.
  *  From that file, it
@@ -16,19 +22,13 @@
  *  with with site (0, 0) in the upper left-hand corner.
  *
  ******************************************************************************/
-
-import java.awt.Font;
-
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdDraw;
-
 public class PercolationVisualizer {
 
     // delay in miliseconds (controls animation speed)
     private static final int DELAY = 100;
 
     // draw N-by-N percolation system
-    public static void draw(Percolation perc, int N) {
+    static void draw(Percolation perc, int N) {
         StdDraw.clear();
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setXscale(-.05 * N, 1.05 * N);

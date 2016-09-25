@@ -1,9 +1,14 @@
+package Percolation;
+
+import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut;
+
 /*****************************************************************************
  *
  *
- *  Compilation:  javac InteractivePercolationVisualizer.java
- *  Execution:    java InteractivePercolationVisualizer N
- *  Dependencies: PercolationVisualizer.java Percolation.java
+ *  Compilation:  javac Percolation.InteractivePercolationVisualizer.java
+ *  Execution:    java Percolation.InteractivePercolationVisualizer N
+ *  Dependencies: Percolation.PercolationVisualizer.java Percolation.Percolation.java
  *
  *  This program takes the grid size N as a command-line argument.
  *  Then, the user repeatedly clicks sites to open with the mouse.
@@ -11,10 +16,6 @@
  *  open sites (that aren't full) in white, and blocked sites in black.
  *
  ******************************************************************************/
-
-import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut;
-
 public class InteractivePercolationVisualizer {
     private static final int DELAY = 20;
 
@@ -34,6 +35,7 @@ public class InteractivePercolationVisualizer {
         Percolation perc = new Percolation(N);
         PercolationVisualizer.draw(perc, N);
         StdDraw.show(DELAY);
+        //noinspection InfiniteLoopStatement
         while (true) {
 
             // detected mouse click
