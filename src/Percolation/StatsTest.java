@@ -33,6 +33,6 @@ public class StatsTest {
      * @return the percentage of sites that were open at the time of percolation in the PercolationStats system
      */
     private static double siteVacancy(PercolationStats ps, int gridSize) {
-        return (Math.pow(gridSize, 2) - ps.mean()) / (Math.pow(gridSize, 2) * 100.0);
+        return ((Math.pow(gridSize, 2) - ps.mean()) / Math.pow(gridSize, 2)) * 100.0;
     }
 }
