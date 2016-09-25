@@ -136,6 +136,7 @@ public class Percolation {
             currSite.isFull = true;
         }
         connectAdjacentSites(row, col);
+        isFull(row, col);
     }
 
     private boolean isInTopRow(int row) {

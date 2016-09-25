@@ -16,7 +16,7 @@ public class StatsTest {
         System.out.println("Standard Deviation: " + ps.stddev());
         System.out.println("Confidence High: " + ps.confidenceHigh());
         System.out.println("Confidence Low: " + ps.confidenceLow());
-
+        System.out.println("Failures: " + ps.failures());
         System.out.println("Average site vacancy at time of percolation: " + (((N * N) - ps.mean()) / (N * N) * 100.0) + "%");
     }
 }
