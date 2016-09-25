@@ -21,11 +21,18 @@ public class StatsTest {
         }
         System.out.println("Running " + T + " tests of size " + N);
         PercolationStats ps = new PercolationStats(N, T, display);
-        System.out.println("Mean: " + ps.mean());
-        System.out.println("Standard Deviation: " + ps.stddev());
-        System.out.println("Confidence High: " + ps.confidenceHigh());
-        System.out.println("Confidence Low: " + ps.confidenceLow());
+        System.out.printf("Mean: %.3f\nStandard Deviation: %.3f\nConfidence Low: %.3f\nConfidence High: %.3f\n",
+                           ps.mean(), ps.stddev(), ps.confidenceLow(), ps.confidenceHigh());
         System.out.println("Failures: " + ps.failures());
-        System.out.println("Average site vacancy at time of percolation: " + (((N * N) - ps.mean()) / (N * N) * 100.0) + "%");
+        System.out.printf("Average site vacancy at time of percolation: %.3f%%\n", siteVacancy(ps, N));
+    }
+
+    /**
+     * @param ps The PercolationStats system representing the system we are modeling.
+     * @param gridSize The size of the system we are modeling.
+     * @return the percentage of sites that were open at the time of percolation in the PercolationStats system
+     */
+    private static double siteVacancy(PercolationStats ps, int gridSize) {
+        return (Math.pow(gridSize, 2) - ps.mean()) / (Math.pow(gridSize, 2) * 100.0);
     }
 }
