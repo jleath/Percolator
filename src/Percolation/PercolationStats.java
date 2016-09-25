@@ -46,11 +46,9 @@ public class PercolationStats {
     private void runTests() {
         // run T tests
         for (int currentTestNumber = 0; currentTestNumber < T; ++currentTestNumber) {
-            System.out.println("Running test " + currentTestNumber);
             // initialize required components for test
             Percolation test = new Percolation(N);
             failureTracker.resetInput();
-            System.out.println("Test constructed");
             // open random sites until the system percolates
             while (!test.percolates()) {
                 draw(test, DEFAULT_DELAY_PAUSE);
