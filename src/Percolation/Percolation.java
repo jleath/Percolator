@@ -8,7 +8,7 @@ import java.util.Map;
  * Each site is referred to as "open" when it is capable of connecting to other sites. A convenient metaphor
  * is the ground with a known width and depth arranged as a grid beneath a body of water.
  * We are able to "open" boxes (what I have named Sites) of this grid to allow the water above to flow through them.
- * The purpose of the Percolation.Percolation class is to represent this grid of sites. The client of Percolation.Percolation can then use it
+ * The purpose of the Percolation class is to represent this grid of sites. The client of Percolation can then use it
  * to analyze statistical properties of the physical phenomena known as percolation.
  */
 public class Percolation {

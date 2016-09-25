@@ -4,8 +4,8 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 /******************************************************************************
- *  Compilation:  javac Percolation.QuickUnionPathCompressionUF.java
- *  Execution:  java Percolation.QuickUnionPathCompressionUF < input.txt
+ *  Compilation:  javac QuickUnionPathCompressionUF.java
+ *  Execution:  java QuickUnionPathCompressionUF < input.txt
  *  Dependencies: StdIn.java StdOut.java
  *  Data files:   http://algs4.cs.princeton.edu/15uf/tinyUF.txt
  *                http://algs4.cs.princeton.edu/15uf/mediumUF.txt
@@ -16,7 +16,7 @@ import edu.princeton.cs.algs4.StdOut;
  ******************************************************************************/
 
 /**
- *  The {@code Percolation.QuickUnionPathCompressionUF} class represents a
+ *  The {@code QuickUnionPathCompressionUF} class represents a
  *  union–find data structure.
  *  It supports the <em>union</em> and <em>find</em> operations, along with
  *  methods for determining whether two sites are in the same component
