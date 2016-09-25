@@ -5,7 +5,7 @@ package Percolation;
  * the number of tests to run and a flag to dictate whether a visual representation of the model
  * is shown. This flag should be "-show", any other flag or the absence of one will result in no
  * visual display.
- *
+ * <p>
  * Uses the PercolationStats class to print relevant information regarding the probability of percolation.
  */
 public class StatsTest {

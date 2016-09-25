@@ -20,7 +20,8 @@ public class FailureSequence {
         gridSize = N;
     }
 
-    /** An inner class for conveniently representing inputs. Very simple, only needs to store the
+    /**
+     * An inner class for conveniently representing inputs. Very simple, only needs to store the
      * two components of an input operation (row and column) and provide a simple string representation.
      */
     private class Pair {
@@ -39,6 +40,7 @@ public class FailureSequence {
 
     /**
      * Increment the failedOps value, returns the failedOps value for a somewhat convenient fluent interface.
+     *
      * @return the number of failed operations caused by the current test.
      */
     public int recordFailedOp() {
@@ -55,6 +57,7 @@ public class FailureSequence {
 
     /**
      * Record an input operation.
+     *
      * @param x the first argument of the command.
      * @param y the second argument of the command.
      */
@@ -70,7 +73,8 @@ public class FailureSequence {
         resetFailedOps();
     }
 
-    /** Outputs the sequence of inputs that led to a failed test in the same format as the files that
+    /**
+     * Outputs the sequence of inputs that led to a failed test in the same format as the files that
      * the PercolationVisualizer can take. Useful for debugging.
      */
     public void recordFailedTest() {
